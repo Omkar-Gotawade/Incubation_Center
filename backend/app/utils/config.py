@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str = "change-this-in-production"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: int = 30
 
     SMTP_HOST: str = "smtp.gmail.com"
     SMTP_PORT: int = 587
@@ -24,6 +25,8 @@ class Settings(BaseSettings):
     SMTP_FROM_EMAIL: str = ""
     SMTP_USE_TLS: bool = True
     EMAIL_ENABLED: bool = True
+
+    FRONTEND_BASE_URL: str = "http://localhost:5173"
 
     CORS_ORIGINS: str = "http://localhost:5173"
 

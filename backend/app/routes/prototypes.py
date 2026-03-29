@@ -38,8 +38,11 @@ async def list_prototypes(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[PrototypeResponse]:
-    del current_user
     query = select(Prototype)
+
+    if current_user.role == UserRole.PROTOTYPER:
+        query = query.where(Prototype.created_by == current_user.id)
+
     if search:
         query = query.where(Prototype.title.ilike(f"%{search.strip()}%"))
 
@@ -71,9 +74,9 @@ async def delete_prototype(
     if not prototype:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Prototype not found")
 
-    is_owner = prototype.created_by == current_user.id
+    is_owner_prototyper = prototype.created_by == current_user.id and current_user.role == UserRole.PROTOTYPER
     is_admin = current_user.role == UserRole.ADMIN
-    if not (is_owner or is_admin):
+    if not (is_owner_prototyper or is_admin):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not allowed to delete this prototype")
 
     db.delete(prototype)

@@ -146,7 +146,7 @@ export function DashboardPage() {
           ) : null}
 
           {visiblePrototypes.map((prototype) => {
-            const canDelete = user?.role === "admin" || prototype.created_by === user?.id;
+            const canDelete = user?.role === "admin" || (user?.role === "prototyper" && prototype.created_by === user.id);
             return (
               <article key={prototype.id} className="rounded-xl border border-black/10 bg-white p-4 shadow-lg shadow-black/5">
                 <h3 className="font-heading text-xl text-ink">{prototype.title}</h3>

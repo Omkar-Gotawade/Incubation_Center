@@ -2,7 +2,7 @@ from sqlalchemy import select
 
 from app.database import Base, SessionLocal, engine
 from app.models.prototype import Prototype
-from app.models.user import User
+from app.models.user import User, UserRole
 
 TEMPLATES: list[tuple[str, str]] = [
     (
@@ -27,7 +27,12 @@ def seed_for_gmail_users() -> tuple[int, int]:
     users_count = 0
 
     with SessionLocal() as db:
-        gmail_users = db.scalars(select(User).where(User.email.ilike("%@gmail.com"))).all()
+        gmail_users = db.scalars(
+            select(User).where(
+                User.email.ilike("%@gmail.com"),
+                User.role == UserRole.PROTOTYPER,
+            )
+        ).all()
         users_count = len(gmail_users)
 
         for user in gmail_users:

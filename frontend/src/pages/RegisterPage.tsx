@@ -10,6 +10,7 @@ export function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<UserRole>("business");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -63,14 +64,23 @@ export function RegisterPage() {
 
           <label className="block text-sm font-semibold text-ink">
             Password
-            <input
-              type="password"
-              required
-              minLength={8}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-black/15 bg-white px-3 py-2 outline-none ring-accent focus:ring"
-            />
+            <div className="relative mt-1">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={8}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="w-full rounded-lg border border-black/15 bg-white px-3 py-2 pr-20 outline-none ring-accent focus:ring"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((value) => !value)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-xs font-semibold text-ink/70 hover:bg-black/5"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </label>
 
           <label className="block text-sm font-semibold text-ink">
